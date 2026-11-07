@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 const db = require('./db');
@@ -8,6 +9,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
 // ─── Helpers ───────────────────────────────────────────────
 function logActivity(type, message, entityId = null, entityType = null) {
@@ -297,6 +300,15 @@ app.get('/api/activity', (req, res) => {
     .prepare('SELECT * FROM activity ORDER BY created_at DESC LIMIT ?')
     .all(limit);
   res.json(activity);
+});
+
+const frontendDist = path.join(__dirname, '..', 'frontend', 'dist');
+app.use(express.static(frontendDist));
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) return next();
+  res.sendFile(path.join(frontendDist, 'index.html'), (err) => {
+    if (err) next(err);
+  });
 });
 
 app.listen(PORT, () => {
