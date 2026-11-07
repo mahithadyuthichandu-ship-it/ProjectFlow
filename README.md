@@ -65,6 +65,20 @@ Go to **http://localhost:3000**
 
 ---
 
+## Deploy a public demo on Render
+
+This repository includes a Render Blueprint for a single web service. It builds the React app, serves it and the API from the same URL, and stores SQLite data on a persistent disk.
+
+1. Sign in to [Render](https://render.com/) and connect your GitHub account.
+2. In the Render dashboard, choose **New → Blueprint** and select this repository and the `deploy/render-single-service` branch. Render will read `render.yaml`.
+3. Review the service and persistent disk before applying the Blueprint. Persistent disks require a paid web service and incur storage charges.
+4. Wait for the first deploy to finish, then open the `onrender.com` URL shown in the service dashboard. Share that URL; pushes to the configured branch can deploy updates.
+5. Open the URL in a private/incognito browser window and confirm the dashboard and API load.
+
+### Public demo access
+
+ProjectFlow currently has no sign-in or authorization. Anyone with the URL can view, add, change, or delete the same shared projects, tasks, and members. Treat this deployment as a public demo with sample data only. Do not enter personal or confidential information. Add authentication and authorization before using it for private team data.
+
 ## API Endpoints
 
 | Method | Endpoint              | Description              |
